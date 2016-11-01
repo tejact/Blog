@@ -5,6 +5,7 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 
+import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -15,6 +16,29 @@ public class Main {
         SimpleBlogEntryDAO simpleBlogEntryDAO = new SimpleBlogEntryDAO();
         System.out.println("Entered Main Method");
         get("/hello", (req, res) -> "Hello World");
+
+        //Check if the cookie with name "user-name" is present and is "admin"
+        before("/add-blog-page",(req,res) -> {
+            String userName = req.cookie("user-name");
+            if(userName == null || !userName.equals("admin")) {
+                //Redirect to the login form.
+                res.redirect("/login-page");
+            }
+        });
+
+        get("/login-page",(req,res) -> {
+            return new ModelAndView(null,"login.hbs");
+        },new HandlebarsTemplateEngine());
+
+        //When clicked on login on main login form
+        //It is simply re-directed to the main page.
+        get("/login",(req,res) -> {
+            //Get username and send as a cookie
+            String userName = req.queryParams("user-name");
+            res.cookie("user-name",userName);
+            res.redirect("/");
+            return null;
+        },new HandlebarsTemplateEngine());
 
         get("/",(req,res) -> {
             Map<String,Object> model = new HashMap<String,Object>();
@@ -59,5 +83,9 @@ public class Main {
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
             return new ModelAndView(model,"details.hbs");
         },new HandlebarsTemplateEngine());
+
+
     }
+
+
 }

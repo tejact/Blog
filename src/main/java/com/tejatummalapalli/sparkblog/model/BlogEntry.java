@@ -1,5 +1,6 @@
 package com.tejatummalapalli.sparkblog.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,11 +11,22 @@ public class BlogEntry {
     Date date;
     String body;
     List<Comment> comments;
+    String slug;
 
-    public BlogEntry(String title, Date date, String body) {
+    public BlogEntry(String title, Date date, String body, String slug) {
         this.title = title;
         this.date = date;
         this.body = body;
+        this.slug = slug;
+        this.comments = new ArrayList<Comment>();
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getTitle() {

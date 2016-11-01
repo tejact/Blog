@@ -11,9 +11,10 @@ import java.util.List;
  */
 
 public interface BlogEntryDAO {
-    public BlogEntry getBlogEntry(BlogEntry blogEntry) throws BlogNotFoundException;
+    public BlogEntry getBlogEntry(String blogSlug) throws BlogNotFoundException;
     public List<BlogEntry> getAllBlogs();
     public void addBlogEntry(BlogEntry blogEntry);
     public void addComment(BlogEntry blogEntry ,Comment comment) throws BlogNotFoundException;
+    public void addComment(String slug ,String commentName , String commentBody) throws BlogNotFoundException;
     public List<Comment> getAllComments(BlogEntry blogEntry) throws BlogNotFoundException;
 }

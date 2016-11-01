@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Welcome to Spark Blog App
+	</title>
+</head>
+<body>
+	<h3>This Page Display's all the blogs</h3>
+    {{#each allBlogSpots}}
+        <li>
+            <a href="/details/{{this.slug}}">
+                {{this.slug}}
+            </a>
+            {{this.date}}
+        </li>
+    {{/each}}
+
+
+    <form action="/add-blog-page">
+        <button type="submit">Add blog!!!</button>
+    </form>
+
+</body>
+</html>

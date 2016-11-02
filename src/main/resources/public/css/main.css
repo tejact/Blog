@@ -1,0 +1,13 @@
+.blog {
+    margin : 10px;
+    padding : 5px;
+}
+
+
+.blog-title{
+    margin:5px;
+}
+
+.blog-date {
+    padding-left: 20px;
+}

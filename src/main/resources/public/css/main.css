@@ -11,3 +11,14 @@
 .blog-date {
     padding-left: 20px;
 }
+
+/*To center the submit button*/
+
+form {
+    text-align: center;
+}
+
+button {
+    margin:auto;
+    display:block;
+}

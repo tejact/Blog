@@ -1,8 +1,5 @@
 {{#partial "content"}}
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-            {{#each allBlogSpots}}
+    {{#each allBlogSpots}}
                 <div class="blog">
                     <div class="blog-title h2">
                         <a href="/details/{{this.slug}}">
@@ -15,12 +12,8 @@
                 </div>
             {{/each}}
 
-
             <form class = "submit-form" action="/add-blog-page">
                 <button type="submit" class="btn-default">Add blog!!!</button>
             </form>
-                    </div>
-            </div>
-        </div>
 {{/partial}}
 {{> base.hbs}}

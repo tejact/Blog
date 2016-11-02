@@ -1,39 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel = "stylesheet" href="/css/main.css">
-    <title>
-       Blog Details...
-    </title>
-</head>
-<body>
-
-
+{{#partial "content"}}
     <h3>{{blogEntry.title}}</h3>
     <p>{{blogEntry.body}}</p>
 
     {{#each blogEntry.comments}}
-    <li>
+    <div class="blog-comment">
         {{this.name}}
         <br>
         {{this.body}}
-    </li>
+    </div>
     {{/each}}
 
     <form action="/add-comment/{{blogEntry.slug}}" method="post">
 
         <label for="comment-name">Comment Name:</label>
-        <input type="text" id="comment-name" name="comment-name">
+        <input type="text" class="comment-name" name="comment-name">
 
-        <label for="comment-body">Add Comment Text here:</label>
-        <input type="text" id="comment-body" name="comment-body">
+        <textarea name="comment-body" class="comment-body">Enter comment here...</textarea>
 
-        <button type="submit">Add Comment</button>
+        <button type="submit" class="btn-default">Add Comment</button>
     </form>
-
     <form action="/edit-blog/{{blogEntry.slug}}">
-        <button type="submit">edit blog!!!</button>
+        <button type="submit" class="btn-default">edit blog!!!</button>
     </form>
-
-</body>
-</html>
+{{/partial}}
+{{> base.hbs}}

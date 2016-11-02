@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel = "stylesheet" href="/css/main.css">
-    <title>
-        Welcome to Spark Blog App
-    </title>
-</head>
-<body>
-<h3>Login</h3>
+{{#partial "content"}}
 
 <form action="/login">
-    <label for="user-name">User Name:</label>
-    <input type="text" name="user-name" id="user-name">
-    <button type="submit">login</button>
+    <fieldset>
+        <legend>Login Details:</legend>
+        <label for="user-name">User Name:</label>
+        <input type="text" name="user-name" id="user-name" class="user-name">
+    </fieldset>
+    <button type="submit" class="btn-default">login</button>
 </form>
-
-</body>
-</html>
+{{/partial}}
+{{> base.hbs}}

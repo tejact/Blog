@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel = "stylesheet" href="/css/main.css">
-    <title>
-        Add a new Blog.
-    </title>
-</head>
-<body>
-
+{{#partial "content"}}
 <form action="/create-blog" method="post">
-
     <fieldset>
         <legend>Create new blog</legend>
-
         <label for="blog-title">Blog Title:</label>
         <input type="text" id="blog-title" name="blog-title">
 
@@ -22,6 +11,5 @@
     </fieldset>
     <button type="submit">Create blog!!!</button>
 </form>
-
-</body>
-</html>
+{{/partial}}
+{{> base.hbs}}

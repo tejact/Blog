@@ -22,3 +22,8 @@ button {
     margin:auto;
     display:block;
 }
+
+/*user name in the login page*/
+.user-name {
+    margin:10px;
+}

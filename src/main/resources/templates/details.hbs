@@ -1,24 +1,28 @@
+
 {{#partial "content"}}
-    <h3>{{blogEntry.title}}</h3>
-    <p>{{blogEntry.body}}</p>
+    <div class="blog-content">
+        <h2>{{blogEntry.title}}</h2>
+        <p class="h3">{{blogEntry.body}}</p>
+    </div>
 
     {{#each blogEntry.comments}}
-    <div class="blog-comment">
-        {{this.name}}
-        <br>
-        {{this.body}}
-    </div>
+        <div class="blog-comment">
+            <span class="comment-name">{{this.name}}</span>
+            <br>
+            <span class="comment-body">{{this.body}}</span>
+        </div>
     {{/each}}
 
     <form action="/add-comment/{{blogEntry.slug}}" method="post">
-
-        <label for="comment-name">Comment Name:</label>
-        <input type="text" class="comment-name" name="comment-name">
-
-        <textarea name="comment-body" class="comment-body">Enter comment here...</textarea>
-
-        <button type="submit" class="btn-default">Add Comment</button>
+        <section class="add-comment">
+            <input type="text" class="comment-name" name="comment-name" placeholder="comment heading here">
+            <div>
+                <textarea name="comment-body" class="comment-body" placeholder="comment here"></textarea>
+            </div>
+            <button type="submit" class="btn-default">Add Comment</button>
+        </section>
     </form>
+
     <form action="/edit-blog/{{blogEntry.slug}}">
         <button type="submit" class="btn-default">edit blog!!!</button>
     </form>

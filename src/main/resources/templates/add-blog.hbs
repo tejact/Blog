@@ -1,15 +1,15 @@
 {{#partial "content"}}
-<form action="/create-blog" method="post">
-    <fieldset>
-        <legend>Create new blog</legend>
-        <label for="blog-title">Blog Title:</label>
-        <input type="text" id="blog-title" name="blog-title">
+    <form action="/create-blog" method="post">
+        <fieldset>
+            <legend>Create new blog</legend>
 
-        <label for="blog-body">Blog Body:</label>
-        <input type="textarea" id="blog-body" name="blog-body">
+            <input type="text" class="blog-title" name="blog-title" placeholder="Title here">
+            <div>
+                <textarea name="blog-body" class="blog-body" placeholder="Content here"></textarea>
+            </div>
 
-    </fieldset>
-    <button type="submit">Create blog!!!</button>
-</form>
+        </fieldset>
+        <button type="submit" class="btn-default">Create blog!!!</button>
+    </form>
 {{/partial}}
 {{> base.hbs}}

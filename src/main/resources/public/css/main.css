@@ -13,12 +13,8 @@
 }
 
 /*To center the submit button*/
-
-form {
-    text-align: center;
-}
-
 button {
+    text-align: center;
     margin:auto;
     display:block;
 }
@@ -26,4 +22,34 @@ button {
 /*user name in the login page*/
 .user-name {
     margin:10px;
+}
+
+/*To make hyperlinks black and unstyle the hover*/
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/*Styling for blog details page*/
+.blog-content {
+    padding:10px;
+    margin: 10px;
+}
+
+.blog-comment {
+    padding:5px;
+    margin: 5px;
+}
+
+.comment-name {
+    font-style: italic;
+}
+
+.add-comment {
+    margin-bottom:20px;
 }

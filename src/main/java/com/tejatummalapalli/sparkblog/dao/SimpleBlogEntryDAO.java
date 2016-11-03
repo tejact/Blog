@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Teja on 10/18/2016.
- */
 public class SimpleBlogEntryDAO implements BlogEntryDAO{
 
     //In memory Database for blog entries.

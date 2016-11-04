@@ -114,4 +114,12 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
         }
         return blogEntryToGetAllComments.getComments();
     }
+
+    //Slug need to be changed whenever the body is changed...
+    public void editBlogEntry(BlogEntry blogEntry , String newTitle , String newBody){
+        blogEntry.setTitle(newTitle);
+        blogEntry.setSlug(slg.slugify(newTitle));
+        blogEntry.setBody(newBody);
+    }
+
 }

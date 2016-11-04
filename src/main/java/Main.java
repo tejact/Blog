@@ -1,4 +1,5 @@
 import com.tejatummalapalli.sparkblog.dao.SimpleBlogEntryDAO;
+import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -83,7 +84,21 @@ public class Main {
             Map<String,Object> model = new HashMap<String,Object>();
             String slug = req.params(":slug");
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
-            return new ModelAndView(model,"details.hbs");
+            return new ModelAndView(model,"edit-blog.hbs");
+        },new HandlebarsTemplateEngine());
+
+        post("save-edits/:slug",(req,res)->{
+            Map<String,Object> model = new HashMap<String,Object>();
+            String slug = req.params(":slug");
+            String newBlogTitle = req.queryParams("blog-title");
+            String newBlogBody = req.queryParams("blog-body");
+
+            BlogEntry blogEntry = simpleBlogEntryDAO.getBlogEntry(slug);
+            simpleBlogEntryDAO.editBlogEntry(blogEntry,newBlogTitle,newBlogBody);
+
+            String newSlug = blogEntry.getSlug();
+            res.redirect("/details/"+newSlug);
+            return null;
         },new HandlebarsTemplateEngine());
 
 

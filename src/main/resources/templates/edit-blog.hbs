@@ -1,0 +1,16 @@
+{{#partial "content"}}
+    <form action="/save-edits/{{blogEntry.slug}}" method="post">
+        <fieldset>
+            <legend>Edit the blog</legend>
+            <input type="text" class="blog-title" name="blog-title" value="{{blogEntry.title}}">
+            <div>
+                <textarea name="blog-body" class="blog-body" placeholder="Content here">
+                    {{blogEntry.body}}
+                </textarea>
+            </div>
+
+        </fieldset>
+        <button type="submit" class="btn-default">Save Changes</button>
+    </form>
+{{/partial}}
+{{>base.hbs}}

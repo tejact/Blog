@@ -29,9 +29,17 @@ public class Main {
             }
         });
 
-        get("/login-page",(req,res) -> {
-            return new ModelAndView(null,"login.hbs");
-        },new HandlebarsTemplateEngine());
+        //Check if the cookie with name "user-name" is present and is "admin"
+        before("/edit-blog/*",(req,res) -> {
+            String userName = req.cookie("user-name");
+            if(userName == null || !userName.equals("admin")) {
+                //Redirect to the login form.
+                res.redirect("/login-page");
+            }
+        });
+
+        get("/login-page",(req,res) ->
+                new ModelAndView(null,"login.hbs"),new HandlebarsTemplateEngine());
 
         //When clicked on login on main login form
         //It is simply re-directed to the main page.
@@ -44,14 +52,13 @@ public class Main {
         },new HandlebarsTemplateEngine());
 
         get("/",(req,res) -> {
-            Map<String,Object> model = new HashMap<String,Object>();
+            Map<String,Object> model = new HashMap<>();
             model.put("allBlogSpots",simpleBlogEntryDAO.getAllBlogs());
             return new ModelAndView(model,"index.hbs");
         },new HandlebarsTemplateEngine());
 
-        get("add-blog-page",(req,res) -> {
-            return new ModelAndView(null,"add-blog.hbs");
-        },new HandlebarsTemplateEngine());
+        get("add-blog-page",(req,res) ->
+                new ModelAndView(null,"add-blog.hbs"),new HandlebarsTemplateEngine());
 
 
         post("create-blog",(req,res) -> {
@@ -63,14 +70,15 @@ public class Main {
         },new HandlebarsTemplateEngine());
 
         get("/details/:slug",(req,res) -> {
-            Map<String,Object> model = new HashMap<String,Object>();
+            Map<String,Object> model = new HashMap<>();
             String slug = req.params(":slug");
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
            return new ModelAndView(model,"details.hbs");
         },new HandlebarsTemplateEngine());
 
+        /*TODO: Need to refactor this code. Compiler warning need to go away*/
         post("/add-comment/:slug",(req,res) -> {
-            Map<String,Object> model = new HashMap<String,Object>();
+            Map<String,Object> model = new HashMap<>();
             String commentName = req.queryParams("comment-name");
             String commentBody = req.queryParams("comment-body");
             String slug = req.params(":slug");
@@ -81,14 +89,13 @@ public class Main {
         },new HandlebarsTemplateEngine());
 
         get("/edit-blog/:slug",(req,res) -> {
-            Map<String,Object> model = new HashMap<String,Object>();
+            Map<String,Object> model = new HashMap<>();
             String slug = req.params(":slug");
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
             return new ModelAndView(model,"edit-blog.hbs");
         },new HandlebarsTemplateEngine());
 
         post("save-edits/:slug",(req,res)->{
-            Map<String,Object> model = new HashMap<String,Object>();
             String slug = req.params(":slug");
             String newBlogTitle = req.queryParams("blog-title");
             String newBlogBody = req.queryParams("blog-body");

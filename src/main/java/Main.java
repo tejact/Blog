@@ -1,3 +1,4 @@
+import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
 import com.tejatummalapalli.sparkblog.dao.SimpleBlogEntryDAO;
 import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import spark.ModelAndView;
@@ -107,6 +108,14 @@ public class Main {
             res.redirect("/details/"+newSlug);
             return null;
         },new HandlebarsTemplateEngine());
+
+        exception(BlogNotFoundException.class,(exception,req,res)-> {
+            HandlebarsTemplateEngine handleBar = new HandlebarsTemplateEngine();
+            res.status(404);
+            ModelAndView modelAndView = new ModelAndView(null, "error-display.hbs");
+            String html = handleBar.render(modelAndView);
+            res.body(html);
+        });
 
 
     }

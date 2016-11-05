@@ -2,6 +2,7 @@ import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
 import com.tejatummalapalli.sparkblog.dao.SimpleBlogEntryDAO;
 import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import spark.ModelAndView;
+import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import static spark.Spark.*;
 
 
 public class Main {
+
+    public static final String FLASH_MESSAGE = "flash-message";
 
     public static void main(String[] args) {
 
@@ -47,6 +50,11 @@ public class Main {
         get("/login",(req,res) -> {
             //Get username and send as a cookie
             String userName = req.queryParams("user-name");
+            if(userName.equals("admin")) {
+                setFlashMessage(req,"Login Successful!");
+            } else {
+                setFlashMessage(req,"Login un-successful!");
+            }
             res.cookie("user-name",userName);
             res.redirect("/");
             return null;
@@ -54,12 +62,17 @@ public class Main {
 
         get("/",(req,res) -> {
             Map<String,Object> model = new HashMap<>();
+            model.put(FLASH_MESSAGE,getFlashMessage(req));
             model.put("allBlogSpots",simpleBlogEntryDAO.getAllBlogs());
             return new ModelAndView(model,"index.hbs");
         },new HandlebarsTemplateEngine());
 
-        get("add-blog-page",(req,res) ->
-                new ModelAndView(null,"add-blog.hbs"),new HandlebarsTemplateEngine());
+
+        get("add-blog-page", (req, res) -> {
+            Map<String,String> model = new HashMap<>();
+            model.put(FLASH_MESSAGE,getFlashMessage(req));
+            return new ModelAndView(null, "add-blog.hbs");
+        },new HandlebarsTemplateEngine());
 
 
         post("create-blog",(req,res) -> {
@@ -118,6 +131,29 @@ public class Main {
         });
 
 
+    }
+
+    private static void setFlashMessage(Request req, String flashMessage) {
+        req.session().attribute(FLASH_MESSAGE,flashMessage);
+    }
+
+    private static String getFlashMessage(Request req) {
+        if( req.session(false) == null ){
+            return null;
+        }
+
+        boolean contains = req.session().attributes().contains(FLASH_MESSAGE);
+        if(!contains) {
+            return null;
+        }
+
+        //Like use and throw
+        final String message = req.session().attribute(FLASH_MESSAGE);
+        if(message != null) {
+            req.session().removeAttribute(FLASH_MESSAGE);
+        }
+
+        return message;
     }
 
 

@@ -4,13 +4,6 @@
 }
 
 
-.blog-title{
-    margin:5px;
-}
-
-.blog-date {
-    padding-left: 20px;
-}
 
 /*Styling the flash Message*/
 .flash-message{
@@ -59,3 +52,32 @@ a:hover, a:focus {
 .add-comment {
     margin-bottom:20px;
 }
+
+/*Add blog page*/
+
+legend {
+    text-align: center;
+}
+
+.add-comment-name , .add-comment-body{
+    width:70%;
+    border: none;
+    padding:10px;
+}
+
+.blog-date{
+    margin-bottom: 10px;
+}
+
+.blog-title {
+    width:100%;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.blog-body {
+    width:100%;
+    border: none;
+}
+
+/*Details page css*/

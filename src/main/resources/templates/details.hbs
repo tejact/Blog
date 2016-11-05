@@ -2,8 +2,8 @@
 {{#partial "content"}}
     <div class="blog-content">
         <h2>{{blogEntry.title}}</h2>
-        <span class="blog-date">{{blogEntry.date}}</span>
-        <p class="h3">{{blogEntry.body}}</p>
+        <div class="blog-date">{{blogEntry.date}}</div>
+        <p>{{blogEntry.body}}</p>
     </div>
 
     {{#each blogEntry.comments}}
@@ -16,9 +16,9 @@
 
     <form action="/add-comment/{{blogEntry.slug}}" method="post">
         <section class="add-comment">
-            <input type="text" class="comment-name" name="comment-name" placeholder="comment heading here">
+            <input type="text" class="add-comment-name" name="add-comment-name" placeholder="comment heading here">
             <div>
-                <textarea name="comment-body" class="comment-body" placeholder="comment here"></textarea>
+                <textarea name="add-comment-body" class="add-comment-body" placeholder="comment here"></textarea>
             </div>
             <button type="submit" class="btn-default">Add Comment</button>
         </section>

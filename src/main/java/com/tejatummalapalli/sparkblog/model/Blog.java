@@ -28,8 +28,12 @@ public class Blog {
 
 
         String title2 = "Method References in Java8";
+        String desc2 = "It is a feature which is related to Lambda Expression. " +
+                "It allows us to reference constructors or methods without executing them." +
+                " Method references and Lambda are similar in that they both require a target " +
+                "type that consist of a compatible functional interface.";
         String slug2 = slg.slugify(title2);
-        BlogEntry sample2 = new BlogEntry(title2,new Date(),"New Feature",slug2);
+        BlogEntry sample2 = new BlogEntry(title2,new Date(),desc2,slug2);
 
         String title3 = "Java9 is coming :)";
         String slug3 = slg.slugify(title3);

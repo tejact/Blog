@@ -93,8 +93,8 @@ public class Main {
         /*TODO: Need to refactor this code. Compiler warning need to go away*/
         post("/add-comment/:slug",(req,res) -> {
             Map<String,Object> model = new HashMap<>();
-            String commentName = req.queryParams("comment-name");
-            String commentBody = req.queryParams("comment-body");
+            String commentName = req.queryParams("add-comment-name");
+            String commentBody = req.queryParams("add-comment-body");
             String slug = req.params(":slug");
             simpleBlogEntryDAO.addComment(slug,commentName,commentBody);
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));

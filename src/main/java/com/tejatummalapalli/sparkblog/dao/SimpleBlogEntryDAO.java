@@ -2,6 +2,7 @@ package com.tejatummalapalli.sparkblog.dao;
 
 import com.github.slugify.Slugify;
 import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
+import com.tejatummalapalli.sparkblog.Exceptions.CommentNotValidException;
 import com.tejatummalapalli.sparkblog.model.Blog;
 import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import com.tejatummalapalli.sparkblog.model.Comment;
@@ -47,7 +48,7 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
         return blogEntryWithRequiredTitle;
     }
 
-    public void addComment(String blogSlug,String commentName, String commentBody) throws BlogNotFoundException {
+    public void addComment(String blogSlug,String commentName, String commentBody) throws BlogNotFoundException, CommentNotValidException {
         BlogEntry blogEntryWithRequiredTitle = null;
         for(BlogEntry currentBlogEntry : blogEntries) {
             if(currentBlogEntry.getSlug().equals(blogSlug)) {
@@ -57,6 +58,10 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
 
         if(blogEntryWithRequiredTitle == null) {
             throw new BlogNotFoundException();
+        }
+
+        if(commentName == null || commentBody == null) {
+            throw new CommentNotValidException();
         }
 
         blogEntryWithRequiredTitle.getComments().add(new Comment(commentName,commentBody));

@@ -14,6 +14,7 @@ public class Blog {
     private Slugify slg = new Slugify();
 
 
+    //Constructor pre-populates three dummy blogs.
     public Blog() {
         blogEntries = new ArrayList<BlogEntry>();
         String title1 = "Lambda's in java 8";

@@ -1,29 +1,10 @@
-.blog {
-    margin : 10px;
-    padding : 5px;
-}
 
+/*To make hyperlinks black and un style on hover*/
 
-
-/*Styling the flash Message*/
-.flash-message{
+legend {
     text-align: center;
-    color: darkslateblue;
 }
 
-/*To center the submit button*/
-button {
-    text-align: center;
-    margin:auto;
-    display:block;
-}
-
-/*user name in the login page*/
-.user-name {
-    margin:10px;
-}
-
-/*To make hyperlinks black and unstyle the hover*/
 a {
     color: black;
     text-decoration: none;
@@ -34,12 +15,27 @@ a:hover, a:focus {
     text-decoration: none;
 }
 
-/*Styling for blog details page*/
-.blog-content {
-    padding:10px;
-    margin: 10px;
+/*Styling the flash Message*/
+.flash-message{
+    color: rgba(194, 189, 192, 0.9);
+    text-align: center;
 }
 
+
+/*Index page,Details page*/
+.blog-date{
+    margin-bottom: 10px;
+}
+
+/*Index page,Details page,Add Blog page*/
+/*Make the text boxes fit the size of parent and border none*/
+.blog-title, .blog-body{
+    width:100%;
+    border: none;
+    margin-bottom: 20px;
+}
+
+/*Styling for blog details page*/
 .blog-comment {
     padding:5px;
     margin: 5px;
@@ -53,31 +49,20 @@ a:hover, a:focus {
     margin-bottom:20px;
 }
 
-/*Add blog page*/
-
-legend {
-    text-align: center;
-}
-
 .add-comment-name , .add-comment-body{
     width:70%;
     border: none;
     padding:10px;
 }
 
-.blog-date{
-    margin-bottom: 10px;
+/*login page*/
+.login-details {
+    text-align: center;
+    margin:auto;
 }
 
-.blog-title {
-    width:100%;
-    border: none;
-    margin-bottom: 20px;
+.user-name-label {
+    font-style: italic;
+    margin:10px;
+    font-weight: lighter;
 }
-
-.blog-body {
-    width:100%;
-    border: none;
-}
-
-/*Details page css*/

@@ -1,11 +1,14 @@
 {{#partial "content"}}
     <form action="/login">
-        <fieldset>
-            <legend>Login Details:</legend>
-            <label for="user-name">User Name:</label>
-            <input type="text" name="user-name" id="user-name" class="user-name">
-        </fieldset>
-        <button type="submit" class="btn-default">login</button>
+        <div  class="login-details">
+            <fieldset>
+                <legend>Login Details:</legend>
+                <label for="user-name" class="user-name-label">Enter your user name:</label>
+                <input type="text" name="user-name" id="user-name" class="user-name">
+                <button type="submit" class="btn-default login-btn">login</button>
+
+            </fieldset>
+        </div>
     </form>
 {{/partial}}
 {{> base.hbs}}

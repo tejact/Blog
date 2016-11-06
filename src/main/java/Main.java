@@ -152,7 +152,6 @@ public class Main {
         if(message != null) {
             req.session().removeAttribute(FLASH_MESSAGE);
         }
-
         return message;
     }
 

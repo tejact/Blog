@@ -64,6 +64,10 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
             throw new CommentNotValidException();
         }
 
+        if(commentName.equals("") || commentBody.equals("")) {
+            throw new CommentNotValidException();
+        }
+
         blogEntryWithRequiredTitle.getComments().add(new Comment(commentName,commentBody));
         //If blog corresponding to the user provided title is not available
     }

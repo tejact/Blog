@@ -1,4 +1,5 @@
 import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
+import com.tejatummalapalli.sparkblog.Exceptions.CommentNotValidException;
 import com.tejatummalapalli.sparkblog.dao.SimpleBlogEntryDAO;
 import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import spark.ModelAndView;
@@ -98,18 +99,28 @@ public class Main {
             Map<String,Object> model = new HashMap<>();
             String slug = req.params(":slug");
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
+
+            String flashMessage = getFlashMessage(req);
+            model.put("flash-message",flashMessage);
+
            return new ModelAndView(model,"details.hbs");
         },new HandlebarsTemplateEngine());
 
-        /*TODO: Need to refactor this code. Compiler warning need to go away*/
-        /*Similar to PRG patter. Comment is added and same details page is requested*/
+        /*Similar to PRG pattern. Comment is added and same details page is requested*/
         post("/add-comment/:slug",(req,res) -> {
             Map<String,Object> model = new HashMap<>();
             String commentName = req.queryParams("add-comment-name");
             String commentBody = req.queryParams("add-comment-body");
             String slug = req.params(":slug");
-            simpleBlogEntryDAO.addComment(slug,commentName,commentBody);
-            model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
+            try {
+                simpleBlogEntryDAO.addComment(slug,commentName,commentBody);
+            } catch (BlogNotFoundException e) {
+                setFlashMessage(req,"Sorry, The blog is not found!");
+                e.printStackTrace();
+            } catch (CommentNotValidException e) {
+                setFlashMessage(req,"Sorry, Comment name OR comment body should not be empty");
+                e.printStackTrace();
+            }
             res.redirect("/details/"+slug);
             return null;
         },new HandlebarsTemplateEngine());

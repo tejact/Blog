@@ -6,14 +6,16 @@ import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-/**
- * Created by Teja on 10/21/2016.
- */
 public class SimpleBlogEntryDAOTest {
 
     SimpleBlogEntryDAO  simpleBlogEntryDAO;
@@ -54,27 +56,49 @@ public class SimpleBlogEntryDAOTest {
 
     @Test(expected = BlogNotFoundException.class)
     public void getBlogEntryShouldReturnCorrectException() throws Exception {
+        simpleBlogEntryDAO.getBlogEntry("sample-blog-slug");
+    }
+
+
+    @Test
+    public void addCommentShouldAdd() throws Exception {
+        String blogTitle = "Welcome";
+        String blogContent = "Spark is a java micro framework";
+        String blogSlug = slg.slugify(blogTitle);
+        BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
+        List<BlogEntry> blogEntries = new ArrayList<BlogEntry>();
+        blogEntries.add(blogEntry);
+        simpleBlogEntryDAO.setBlogEntries(blogEntries);
+
+        simpleBlogEntryDAO.addComment(blogSlug,"Test","Comment");
+
+        assertEquals(1,simpleBlogEntryDAO.getAllComments(blogEntry).size());
+    }
+
+    @Test
+    public void getAllCommentsShouldReturnAllComments() throws Exception {
+        String blogTitle = "Welcome";
+        String blogContent = "Spark is a java micro framework";
+        String blogSlug = slg.slugify(blogTitle);
+        BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
+        List<BlogEntry> blogEntries = new ArrayList<BlogEntry>();
+        blogEntries.add(blogEntry);
+        simpleBlogEntryDAO.setBlogEntries(blogEntries);
+
+        simpleBlogEntryDAO.addComment(blogSlug,"Test","Comment");
+        simpleBlogEntryDAO.addComment(blogSlug,"Test2","Comment2");
+
+        assertEquals(2,simpleBlogEntryDAO.getAllComments(blogEntry).size());
+    }
+
+    @Test(expected = BlogNotFoundException.class)
+    public void getAllCommentsShouldReturnBlogNotFoundException() throws Exception{
         String blogTitle = "Welcome";
         String blogContent = "Spark is a java micro framework";
         String blogSlug = slg.slugify(blogTitle);
         BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
-        simpleBlogEntryDAO.getBlogEntry(blogSlug);
-    }
-
-
-    @Test
-    public void getAllBlogs() throws Exception {
-
-    }
-    @Test
-    public void addComment() throws Exception {
-
-    }
-
-    @Test
-    public void getAllComments() throws Exception {
-
+        simpleBlogEntryDAO.getAllComments(blogEntry);
     }
 
     @After

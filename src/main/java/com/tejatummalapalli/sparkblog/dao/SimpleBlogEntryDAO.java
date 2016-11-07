@@ -30,8 +30,11 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
         blogEntries.add(blogEntry);
     }
 
+    public void setBlogEntries(List<BlogEntry> blogEntries) {
+        this.blogEntries = blogEntries;
+    }
 
-    public void addBlogEntry(String title,String body) throws BlogNotValidException {
+    public void addBlogEntry(String title, String body) throws BlogNotValidException {
         if(Objects.equals(title, "") | Objects.equals(body, "")) {
             throw new BlogNotValidException();
         }

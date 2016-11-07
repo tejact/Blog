@@ -2,6 +2,7 @@ package com.tejatummalapalli.sparkblog.dao;
 
 import com.github.slugify.Slugify;
 import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
+import com.tejatummalapalli.sparkblog.Exceptions.BlogNotValidException;
 import com.tejatummalapalli.sparkblog.Exceptions.CommentNotValidException;
 import com.tejatummalapalli.sparkblog.model.Blog;
 import com.tejatummalapalli.sparkblog.model.BlogEntry;
@@ -9,6 +10,7 @@ import com.tejatummalapalli.sparkblog.model.Comment;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class SimpleBlogEntryDAO implements BlogEntryDAO{
 
@@ -27,7 +29,10 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
     }
 
 
-    public void addBlogEntry(String title,String body) {
+    public void addBlogEntry(String title,String body) throws BlogNotValidException {
+        if(Objects.equals(title, "") | Objects.equals(body, "")) {
+            throw new BlogNotValidException();
+        }
         String slug = slg.slugify(title);
         BlogEntry newBlogEntry = new BlogEntry(title,new Date(),body,slug);
         blogEntries.add(newBlogEntry);

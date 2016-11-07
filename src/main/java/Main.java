@@ -1,4 +1,5 @@
 import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
+import com.tejatummalapalli.sparkblog.Exceptions.BlogNotValidException;
 import com.tejatummalapalli.sparkblog.Exceptions.CommentNotValidException;
 import com.tejatummalapalli.sparkblog.dao.SimpleBlogEntryDAO;
 import com.tejatummalapalli.sparkblog.model.BlogEntry;
@@ -45,7 +46,7 @@ public class Main {
         get("/",(req,res) -> {
             Map<String,Object> model = new HashMap<>();
             //The flas_message is set to NULL if it is not present
-            model.put(FLASH_MESSAGE,getFlashMessage(req));
+            model.put(FLASH_MESSAGE, captureFlashMessage(req));
             model.put("allBlogSpots",simpleBlogEntryDAO.getAllBlogs());
             return new ModelAndView(model,"index.hbs");
         },new HandlebarsTemplateEngine());
@@ -81,7 +82,7 @@ public class Main {
         /*Servers the page that provided option to add blog*/
         get("add-blog-page", (req, res) -> {
             Map<String,String> model = new HashMap<>();
-            model.put(FLASH_MESSAGE,getFlashMessage(req));
+            model.put(FLASH_MESSAGE, captureFlashMessage(req));
             return new ModelAndView(null, "add-blog.hbs");
         },new HandlebarsTemplateEngine());
 
@@ -89,7 +90,12 @@ public class Main {
         post("create-blog",(req,res) -> {
             String title = req.queryParams("blog-title");
             String body = req.queryParams("blog-body");
-            simpleBlogEntryDAO.addBlogEntry(title,body);
+            try {
+                simpleBlogEntryDAO.addBlogEntry(title,body);
+            } catch (BlogNotValidException e) {
+                setFlashMessage(req,"Sorry, Blog name OR blog content should not be null");
+                e.printStackTrace();
+            }
             res.redirect("/");
             return null;
         },new HandlebarsTemplateEngine());
@@ -99,10 +105,9 @@ public class Main {
             Map<String,Object> model = new HashMap<>();
             String slug = req.params(":slug");
             model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
-
-            String flashMessage = getFlashMessage(req);
+            //Flash message to update the page with proper message
+            String flashMessage = captureFlashMessage(req);
             model.put("flash-message",flashMessage);
-
            return new ModelAndView(model,"details.hbs");
         },new HandlebarsTemplateEngine());
 
@@ -118,6 +123,7 @@ public class Main {
                 setFlashMessage(req,"Sorry, The blog is not found!");
                 e.printStackTrace();
             } catch (CommentNotValidException e) {
+                //Add flash message here. The details page get the flash message.
                 setFlashMessage(req,"Sorry, Comment name OR comment body should not be empty");
                 e.printStackTrace();
             }
@@ -165,16 +171,16 @@ public class Main {
         req.session().attribute(FLASH_MESSAGE,flashMessage);
     }
 
-    private static String getFlashMessage(Request req) {
+
+    //This method get's the flash message and erases it.
+    private static String captureFlashMessage(Request req) {
         if( req.session(false) == null ){
             return null;
         }
-
         boolean contains = req.session().attributes().contains(FLASH_MESSAGE);
         if(!contains) {
             return null;
         }
-
         //Like use and throw. The message is cleared form the session and then returned
         //This avoid the flash message to be visible after refresh
         final String message = req.session().attribute(FLASH_MESSAGE);

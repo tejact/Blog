@@ -1,7 +1,8 @@
 package com.tejatummalapalli.sparkblog.dao;
 
-import com.tejatummalapalli.sparkblog.Exceptions.*;
-import com.tejatummalapalli.sparkblog.model.*;
+import com.github.slugify.Slugify;
+import com.tejatummalapalli.sparkblog.Exceptions.BlogNotFoundException;
+import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,17 +17,21 @@ import static org.junit.Assert.assertEquals;
 public class SimpleBlogEntryDAOTest {
 
     SimpleBlogEntryDAO  simpleBlogEntryDAO;
+    Slugify slg;
 
 
     @Before
     public void setUp() throws Exception {
         simpleBlogEntryDAO = new SimpleBlogEntryDAO();
+        slg = new Slugify();
     }
 
     @Test
-    public void addingBlogEntryShoudAddItToMainBlogEntriesList() throws Exception{
-
-        BlogEntry blogEntry = new BlogEntry("Welcome",new Date(),"Hi, This is great");
+    public void addingBlogEntryShouldAddItToMainBlogEntriesList() throws Exception{
+        String blogTitle = "Welcome";
+        String blogContent = "Spark is a java micro framework";
+        String blogSlug = slg.slugify(blogTitle);
+        BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
         simpleBlogEntryDAO.addBlogEntry(blogEntry);
 
@@ -36,19 +41,25 @@ public class SimpleBlogEntryDAOTest {
 
     @Test
     public void getBlogEntryShouldReturnTheCorrectBlogEntry() throws Exception {
-        BlogEntry blogEntry = new BlogEntry("Welcome",new Date(),"Hi, This is great");
+        String blogTitle = "Welcome";
+        String blogContent = "Spark is a java micro framework";
+        String blogSlug = slg.slugify(blogTitle);
+        BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
         simpleBlogEntryDAO.addBlogEntry(blogEntry);
 
-        assertEquals(blogEntry,simpleBlogEntryDAO.getBlogEntry(blogEntry));
+        assertEquals(blogEntry,simpleBlogEntryDAO.getBlogEntry(blogSlug));
     }
 
 
     @Test(expected = BlogNotFoundException.class)
     public void getBlogEntryShouldReturnCorrectException() throws Exception {
-        BlogEntry blogEntry = new BlogEntry("Welcome",new Date(),"Hi, This is great");
+        String blogTitle = "Welcome";
+        String blogContent = "Spark is a java micro framework";
+        String blogSlug = slg.slugify(blogTitle);
+        BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
-        simpleBlogEntryDAO.getBlogEntry(blogEntry);
+        simpleBlogEntryDAO.getBlogEntry(blogSlug);
     }
 
 

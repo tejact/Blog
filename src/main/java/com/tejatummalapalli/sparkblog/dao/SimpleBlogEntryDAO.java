@@ -20,6 +20,8 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
 
 
     public SimpleBlogEntryDAO() {
+        Blog blog = new Blog();
+        blog.addDefaultBlogs();
         blogEntries = new Blog().getBlogEntries();
     }
 

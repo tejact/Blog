@@ -33,6 +33,7 @@ public class SimpleBlogEntryDAOTest {
         BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
         simpleBlogEntryDAO.addBlogEntry(blogEntry);
+
         assertEquals(1,simpleBlogEntryDAO.getAllBlogs().size());
     }
 

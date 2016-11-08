@@ -13,6 +13,11 @@ public class Blog {
     private List<BlogEntry> blogEntries = new ArrayList<BlogEntry>();
     private Slugify slg = new Slugify();
 
+
+    public Blog(){
+        addDefaultBlogs();
+    }
+
     //This method populates the blogEntries with dummy blogs
     public void addDefaultBlogs() {
         blogEntries = new ArrayList<BlogEntry>();

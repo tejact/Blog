@@ -22,8 +22,9 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
     public SimpleBlogEntryDAO() {
         Blog blog = new Blog();
         blog.addDefaultBlogs();
-        blogEntries = new Blog().getBlogEntries();
+        blogEntries = blog.getBlogEntries();
     }
+
 
     @Override
     public void addBlogEntry(BlogEntry blogEntry) {
@@ -43,43 +44,24 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
         blogEntries.add(newBlogEntry);
     }
 
-    @Override
-    public BlogEntry getBlogEntry(String blogSlug) throws BlogNotFoundException {
-        BlogEntry blogEntryWithRequiredTitle = null;
-        for(BlogEntry currentBlogEntry : blogEntries) {
-            if(currentBlogEntry.getSlug().equals(blogSlug)) {
-                blogEntryWithRequiredTitle = currentBlogEntry;
-            }
-        }
-        //If blog corresponding to the user provided title is not available
-        if(blogEntryWithRequiredTitle == null) {
-            throw new BlogNotFoundException();
-        }
-        return blogEntryWithRequiredTitle;
+     public BlogEntry getBlogEntryForSlug(String blogSlug) throws BlogNotFoundException {
+        return blogEntries.stream()
+                .filter(currentBlogEntry -> currentBlogEntry.getSlug().equals(blogSlug))
+                .findFirst()
+                .orElseThrow(() -> new BlogNotFoundException());
     }
 
     public void addComment(String blogSlug,String commentName, String commentBody) throws BlogNotFoundException, CommentNotValidException {
-        BlogEntry blogEntryWithRequiredTitle = null;
-        for(BlogEntry currentBlogEntry : blogEntries) {
-            if(currentBlogEntry.getSlug().equals(blogSlug)) {
-                blogEntryWithRequiredTitle = currentBlogEntry;
-            }
-        }
+        //Get the blog entry with the provided Slug
+        BlogEntry blogEntryWithRequiredTitle = getBlogEntryForSlug(blogSlug);
 
-        if(blogEntryWithRequiredTitle == null) {
-            throw new BlogNotFoundException();
-        }
-
-        if(commentName == null || commentBody == null) {
-            throw new CommentNotValidException();
-        }
-
+        //If the user entered comment is blank
         if(commentName.equals("") || commentBody.equals("")) {
             throw new CommentNotValidException();
         }
 
+        //Add comment
         blogEntryWithRequiredTitle.getComments().add(new Comment(commentName,commentBody));
-        //If blog corresponding to the user provided title is not available
     }
 
     @Override
@@ -87,32 +69,11 @@ public class SimpleBlogEntryDAO implements BlogEntryDAO{
         return blogEntries;
     }
 
-    @Override
-    public void addComment(BlogEntry blogEntry, Comment comment) throws BlogNotFoundException {
-        BlogEntry blogEntryToAddComment = null;
-        for(BlogEntry currentBlogEntry : blogEntries) {
-            if(currentBlogEntry.equals(blogEntry)) {
-                blogEntryToAddComment = currentBlogEntry;
-            }
-        }
-        if(blogEntryToAddComment == null) {
-            throw new BlogNotFoundException();
-        }
-        blogEntryToAddComment.getComments().add(comment);
-    }
+
 
     @Override
-    public List<Comment> getAllComments(BlogEntry blogEntry) throws BlogNotFoundException {
-        BlogEntry blogEntryToGetAllComments = null;
-        for(BlogEntry currentBlogEntry : blogEntries) {
-            if(currentBlogEntry.equals(blogEntry)) {
-                blogEntryToGetAllComments = currentBlogEntry;
-            }
-        }
-        if(blogEntryToGetAllComments == null) {
-            throw new BlogNotFoundException();
-        }
-        return blogEntryToGetAllComments.getComments();
+    public List<Comment> getAllComments(String blogSlug) throws BlogNotFoundException {
+       return getBlogEntryForSlug(blogSlug).getComments();
     }
 
     //Slug need to be changed whenever the body is changed...

@@ -6,15 +6,12 @@ import com.tejatummalapalli.sparkblog.model.BlogEntry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 public class SimpleBlogEntryDAOTest {
 
@@ -36,7 +33,6 @@ public class SimpleBlogEntryDAOTest {
         BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
         simpleBlogEntryDAO.addBlogEntry(blogEntry);
-
         assertEquals(1,simpleBlogEntryDAO.getAllBlogs().size());
     }
 
@@ -50,13 +46,13 @@ public class SimpleBlogEntryDAOTest {
 
         simpleBlogEntryDAO.addBlogEntry(blogEntry);
 
-        assertEquals(blogEntry,simpleBlogEntryDAO.getBlogEntry(blogSlug));
+        assertEquals(blogEntry,simpleBlogEntryDAO.getBlogEntryForSlug(blogSlug));
     }
 
 
     @Test(expected = BlogNotFoundException.class)
     public void getBlogEntryShouldReturnCorrectException() throws Exception {
-        simpleBlogEntryDAO.getBlogEntry("sample-blog-slug");
+        simpleBlogEntryDAO.getBlogEntryForSlug("sample-blog-slug");
     }
 
 
@@ -72,7 +68,7 @@ public class SimpleBlogEntryDAOTest {
 
         simpleBlogEntryDAO.addComment(blogSlug,"Test","Comment");
 
-        assertEquals(1,simpleBlogEntryDAO.getAllComments(blogEntry).size());
+        assertEquals(1,simpleBlogEntryDAO.getAllComments(blogSlug).size());
     }
 
     @Test
@@ -88,7 +84,7 @@ public class SimpleBlogEntryDAOTest {
         simpleBlogEntryDAO.addComment(blogSlug,"Test","Comment");
         simpleBlogEntryDAO.addComment(blogSlug,"Test2","Comment2");
 
-        assertEquals(2,simpleBlogEntryDAO.getAllComments(blogEntry).size());
+        assertEquals(2,simpleBlogEntryDAO.getAllComments(blogSlug).size());
     }
 
     @Test(expected = BlogNotFoundException.class)
@@ -98,7 +94,7 @@ public class SimpleBlogEntryDAOTest {
         String blogSlug = slg.slugify(blogTitle);
         BlogEntry blogEntry = new BlogEntry(blogTitle,new Date(),blogContent,blogSlug);
 
-        simpleBlogEntryDAO.getAllComments(blogEntry);
+        simpleBlogEntryDAO.getAllComments(blogSlug);
     }
 
     @After

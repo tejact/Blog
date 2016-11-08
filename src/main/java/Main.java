@@ -104,7 +104,7 @@ public class Main {
         get("/details/:slug",(req,res) -> {
             Map<String,Object> model = new HashMap<>();
             String slug = req.params(":slug");
-            model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
+            model.put("blogEntry",simpleBlogEntryDAO.getBlogEntryForSlug(slug));
             //Flash message to update the page with proper message
             String flashMessage = captureFlashMessage(req);
             model.put("flash-message",flashMessage);
@@ -137,7 +137,7 @@ public class Main {
         get("/edit-blog/:slug",(req,res) -> {
             Map<String,Object> model = new HashMap<>();
             String slug = req.params(":slug");
-            model.put("blogEntry",simpleBlogEntryDAO.getBlogEntry(slug));
+            model.put("blogEntry",simpleBlogEntryDAO.getBlogEntryForSlug(slug));
             return new ModelAndView(model,"edit-blog.hbs");
         },new HandlebarsTemplateEngine());
 
@@ -147,7 +147,7 @@ public class Main {
             String newBlogTitle = req.queryParams("blog-title");
             String newBlogBody = req.queryParams("blog-body");
 
-            BlogEntry blogEntry = simpleBlogEntryDAO.getBlogEntry(slug);
+            BlogEntry blogEntry = simpleBlogEntryDAO.getBlogEntryForSlug(slug);
             simpleBlogEntryDAO.editBlogEntry(blogEntry,newBlogTitle,newBlogBody);
 
             String newSlug = blogEntry.getSlug();

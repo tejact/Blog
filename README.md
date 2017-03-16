@@ -16,6 +16,15 @@ extract and import it as a Graddle project in intelliJ/Eclipse
 * Cookies for authentication.
 * Right now list DS is used as an in-momory database. But it will change soon.
 
+## Demo
+Home Page
+![Home Page](https://github.com/tejact/Blog/blob/master/blog1.png)
+
+Add Blog
+![Add Blog](https://github.com/tejact/Blog/blob/master/blog2.PNG)
+
+
+
 ## Built With
 
 * [Java](https://www.oracle.com/java/index.html) - The language used
